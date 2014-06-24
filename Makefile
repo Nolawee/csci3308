@@ -3,7 +3,7 @@
 # Summer 2014
 
 CC = gcc
-CFLAGS = -c -Wall -Wextra
+CFLAGS = -c -g -Wall -Wextra
 LFLAGS = -Wall -Wextra
 
 .PHONY: all clean

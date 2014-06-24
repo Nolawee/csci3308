@@ -12,6 +12,7 @@
 /* Local Includes */
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 #include <math.h>
 #include <errno.h>
 
@@ -19,33 +20,59 @@
 #define DEFAULT_ITERATIONS 1000000
 #define RADIUS (RAND_MAX / 2)
 
+/* Local Types */
+typedef struct coordinate {
+    double x;
+    double y;
+} coordinate_t;
+
 /* Local Functions */
-inline double dist(double x0, double y0, double x1, double y1){
-    return sqrt(pow((x1-x0), 2) + pow((y1-y0), 2));
+double dist(const coordinate_t* pt_a, const coordinate_t* pt_b){
+    return sqrt(pow((pt_a->x - pt_b->x), 2) + pow((pt_a->y - pt_b->y), 2));
 }
 
-inline double zeroDist(double x, double y){
-    return dist(0, 0, x, y);
+double zeroDist(const coordinate_t* other_pt){
+
+    /* Local vars */
+    double d = 0.0;
+    coordinate_t* zero_pt = NULL;
+
+    /* Create new zero point */
+    zero_pt = malloc(sizeof(*zero_pt));
+    if(!zero_pt){
+        fprintf(stderr, "Malloc failed\n");
+        return NAN;
+    }
+    zero_pt->x = 0.0;
+    zero_pt->y = 0.0;
+
+    /* Calculate Distance */
+    d = dist(zero_pt, other_pt);
+
+    /* Return distance */
+    return d;
+
 }
 
 /* Main */
 int main(int argc, char* argv[]){
 
+    /* Local vars */
     long i;
     long iterations;
-    double x, y;
-    double inCircle = 0.0;
-    double inSquare = 0.0;
+    coordinate_t* pt = NULL;
+    long inCircle = 0;
+    long inSquare = 0;
     double pCircle = 0.0;
     double piCalc = 0.0;
 
     /* Process program arguments to select iterations */
-    /* Set default iterations if not supplied */
     if(argc < 2){
+        /* Set default iterations if not supplied */
         iterations = DEFAULT_ITERATIONS;
     }
-    /* Set iterations if supplied */
     else{
+        /* Set iterations if supplied */
         iterations = atol(argv[1]);
         if(iterations < 1){
             fprintf(stderr, "Bad iterations value\n");
@@ -53,18 +80,22 @@ int main(int argc, char* argv[]){
         }
     }
 
+    /* Seed RNG */
+    srand(time(NULL));
+
     /* Calculate pi using statistical methode across all iterations*/
     for(i=0; i<iterations; i++){
-        x = (random() % (RADIUS * 2)) - RADIUS;
-        y = (random() % (RADIUS * 2)) - RADIUS;
-        if(zeroDist(x,y) < RADIUS){
+        /* todo: remember to allocate pt */
+        pt->x = (rand() % (RADIUS * 2)) - RADIUS;
+        pt->y = (rand() % (RADIUS * 2)) - RADIUS;
+        if(zeroDist(pt) < RADIUS){
             inCircle++;
         }
         inSquare++;
     }
 
     /* Finish calculation */
-    pCircle = inCircle / inSquare;
+    pCircle = (double) inCircle / (double) inSquare;
     piCalc = pCircle * 4.0;
 
     /* Print result */
