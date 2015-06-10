@@ -1,0 +1,14 @@
+first story 
+initial 1 5, but after discussing what woudl be needed done (database existence,e tc) we consensused on 2 b/c it wouldnt be complex just time consuming
+
+second story
+have tos earch for space, see availability, have a method of payment, but its relatively straightforward (3)
+
+third story
+difficulty of uploading or "our own social media vs existing", hosting files(?) (which platforms?) (3)
+
+fourth story
+tracking may be difficult, maybe an epic?break into "creating event" and "viewing event" (2) + (3) = 5
+
+fifth story
+just a simple instantiation of a new game, (3)
