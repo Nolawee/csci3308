@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <title>Test</title>
+        <link type="text/css" rel='stylesheet' href='/hello.css' />
+        <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script>
+            $(document).ready(function (){
+
+                    });
+            $.getWeather = function () {
+                var loc = $('#location').val();
+            
+            $.ajax({
+                "url":"//api.openweathermap.org/data/2.5/weather",
+                "type":"GET",
+                "data":{"q":loc},
+                "success":function(response){
+                    console.log(response);
+                    <!--alert(response.main.temp);-->
+                    var tmp = response.main.temp-273;
+                    $('#temp').text(tmp);
+                    $('#windspd').text(response.wind.speed);
+                    $('#humidity').text(response.main.humidity);
+                }
+            });
+            }            
+        </script>
+    </head>
+    <body>
+        <h1 style='font-family: sans-serif'> REST Weather API </h1>
+            <input id='location' type='text' placeholder='City,State' name='location'> 
+            <button type='button' onclick='$.getWeather()'> Submit </button>
+        <p>Temperature: <span id='temp'>Original</span> Celsius</p> 
+        <p>Humidity: <span id='humidity'>Original</span>% </p>
+        <p>Wind Speed: <span id='windspd'>Original</span> m/s</p>
+    </body>
+</html>
+
